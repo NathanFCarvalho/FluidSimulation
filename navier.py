@@ -80,7 +80,7 @@ def scatter_force(dv, indices, weights, config):
 
 @jit
 def vorticity_to_velocity(omega_hat, operator):
-    psi_hat = -omega_hat / jnp.where(operator.K2 > 0, operator.K2, 1.0)
+    psi_hat = omega_hat / jnp.where(operator.K2 > 0, operator.K2, 1.0)
     ux = jnp.fft.ifft2(1j * operator.Ky * psi_hat).real
     uy = jnp.fft.ifft2(-1j * operator.Kx * psi_hat).real
     return jnp.stack([ux, uy])
